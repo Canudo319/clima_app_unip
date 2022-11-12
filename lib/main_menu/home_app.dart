@@ -1,6 +1,6 @@
 import 'package:clima_app/main_menu/location.dart';
-import 'package:clima_app/web_requests/clima_requests.dart';
 import 'package:clima_app/widgets/config_button.dart';
+import 'package:clima_app/widgets/service_response.dart';
 import 'package:flutter/material.dart';
 
 class HomeApp extends StatelessWidget {
@@ -27,12 +27,7 @@ class HomeApp extends StatelessWidget {
             } else if (snapshot.hasData) {
               var lat = snapshot.data?.latitude ?? 0.0;
               var lon = snapshot.data?.longitude ?? 0.0;
-              return FutureBuilder(
-                future: Services.getClimaByLocation(lat, lon),
-                builder: (context, snapshot) {
-                  return Text(snapshot.data?.toString() ?? "null");
-                },
-              );
+              return ClimaRequest(lat, lon);
             } else {
               return const Text("Sem valor");
             }
