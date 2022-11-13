@@ -1,4 +1,5 @@
 import 'package:clima_app/model/clima_model.dart';
+import 'package:clima_app/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 import '../web_requests/clima_requests.dart';
@@ -24,7 +25,7 @@ class ClimaRequest extends StatelessWidget {
           );
           return clima.imagem;
         } else {
-          return const Text("null");
+          return const ProgressIndicatorIndeterminado();
         }
       },
     );

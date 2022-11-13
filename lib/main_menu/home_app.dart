@@ -1,5 +1,6 @@
 import 'package:clima_app/main_menu/location.dart';
-import 'package:clima_app/widgets/config_button.dart';
+import 'package:clima_app/widgets/information_button.dart';
+import 'package:clima_app/widgets/loading.dart';
 import 'package:clima_app/widgets/service_response.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class HomeApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           actions: const [
-            ConfigButton(),
+            InformationButton(),
           ],
           backgroundColor: Colors.blue,
           title: const Text("Bem vindo ao Clima App"),
@@ -29,7 +30,7 @@ class HomeApp extends StatelessWidget {
               var lon = snapshot.data?.longitude ?? 0.0;
               return ClimaRequest(lat, lon);
             } else {
-              return const Text("Sem valor");
+              return const ProgressIndicatorIndeterminado();
             }
           },
         ),
