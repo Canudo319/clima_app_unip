@@ -13,6 +13,7 @@ class HomeApp extends StatelessWidget {
       title: "Clima",
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 168, 226, 255),
         appBar: AppBar(
           actions: const [
             InformationButton(),

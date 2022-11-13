@@ -1,3 +1,4 @@
+import 'package:clima_app/widgets/default_card.dart';
 import 'package:flutter/material.dart';
 
 class ProgressIndicatorIndeterminado extends StatelessWidget {
@@ -5,10 +6,7 @@ class ProgressIndicatorIndeterminado extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: const Color.fromRGBO(66, 192, 255, 0.2),
+    return DefaultCard(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
