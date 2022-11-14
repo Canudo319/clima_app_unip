@@ -5,22 +5,32 @@ import 'package:flutter/material.dart';
 
 import '../web_requests/clima_requests.dart';
 
-class ClimaRequest extends StatelessWidget {
+class ClimaRequest extends StatefulWidget {
   final double lat, lon;
 
   const ClimaRequest(this.lat, this.lon, {super.key});
 
   @override
+  State<ClimaRequest> createState() => _ClimaRequestState();
+}
+
+class _ClimaRequestState extends State<ClimaRequest> {
+  void funcRefresh() {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Services.getClimaByLocation(lat, lon),
+      future: Services.getClimaByLocation(widget.lat, widget.lon),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          var body = snapshot.data ?? {};
-          var tempo = TempoModel.fromMap(body);
-          return ClimaCard(tempo);
-        } else {
-          return const ProgressIndicatorIndeterminado();
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const ProgressIndicatorIndeterminado();
+          default:
+            var body = snapshot.data ?? {};
+            var tempo = TempoModel.fromMap(body);
+            return ClimaCard(tempo, funcRefresh);
         }
       },
     );

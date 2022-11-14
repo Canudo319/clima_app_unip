@@ -11,4 +11,11 @@ class Services {
     var response = await http.get(Uri.parse(url));
     return jsonDecode(response.body);
   }
+
+  static Future<Map> getClimaByName(String city) async {
+    var url =
+        'https://api.openweathermap.org/data/2.5/weather?q=$city&units=metric&lang=pt_br&appid=$_key';
+    var response = await http.get(Uri.parse(url));
+    return jsonDecode(response.body);
+  }
 }

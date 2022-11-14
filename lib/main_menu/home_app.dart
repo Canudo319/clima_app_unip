@@ -5,8 +5,17 @@ import 'package:clima_app/widgets/loading.dart';
 import 'package:clima_app/widgets/service_response.dart';
 import 'package:flutter/material.dart';
 
-class HomeApp extends StatelessWidget {
+class HomeApp extends StatefulWidget {
   const HomeApp({super.key});
+
+  @override
+  State<HomeApp> createState() => _HomeAppState();
+}
+
+class _HomeAppState extends State<HomeApp> {
+  void funcRefresh() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +34,19 @@ class HomeApp extends StatelessWidget {
         body: FutureBuilder(
           future: UserLocation.getLocation(),
           builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return DefaultCard(child: Text(snapshot.error.toString()));
-            } else if (snapshot.hasData) {
-              var lat = snapshot.data?.latitude ?? 0.0;
-              var lon = snapshot.data?.longitude ?? 0.0;
-              return ClimaRequest(lat, lon);
-            } else {
-              return const ProgressIndicatorIndeterminado();
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const ProgressIndicatorIndeterminado();
+              default:
+                if (snapshot.hasError) {
+                  return DefaultCard(child: Text(snapshot.error.toString()));
+                } else if (snapshot.hasData) {
+                  var lat = snapshot.data?.latitude ?? 0.0;
+                  var lon = snapshot.data?.longitude ?? 0.0;
+                  return ClimaRequest(lat, lon);
+                } else {
+                  return const ClimaRequest(0.0, 0.0);
+                }
             }
           },
         ),

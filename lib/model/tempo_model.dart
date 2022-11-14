@@ -1,10 +1,13 @@
 class TempoModel {
-  final double temperatura;
-  final double sensacaoTermica;
-  final double tempMaxima;
-  final double tempMinima;
+  final num temperatura;
+  final num sensacaoTermica;
+  final num tempMaxima;
+  final num tempMinima;
   final int humidade;
-  final double vento;
+  final num vento;
+  final num ventoDirecao;
+  final num nuvens;
+  final num visibilidade;
   final String cidade;
   final String climaTexto;
   final String climaDescricao;
@@ -17,6 +20,9 @@ class TempoModel {
     required this.tempMinima,
     required this.humidade,
     required this.vento,
+    required this.ventoDirecao,
+    required this.nuvens,
+    required this.visibilidade,
     required this.cidade,
     required this.climaTexto,
     required this.climaDescricao,
@@ -31,6 +37,9 @@ class TempoModel {
       tempMinima: map["main"]["temp_min"],
       humidade: map["main"]["humidity"],
       vento: map["wind"]["speed"],
+      ventoDirecao: map["wind"]["deg"],
+      nuvens: map["clouds"]["all"],
+      visibilidade: map["visibility"],
       cidade: map["name"],
       climaTexto: map["weather"][0]["main"],
       climaDescricao: _capitalize(map["weather"][0]["description"]),
