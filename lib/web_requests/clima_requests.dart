@@ -7,7 +7,7 @@ class Services {
 
   static Future<Map> getClimaByLocation(double lat, double lon) async {
     var url =
-        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&appid=$_key';
+        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&lang=pt_br&appid=$_key';
     var response = await http.get(Uri.parse(url));
     return jsonDecode(response.body);
   }

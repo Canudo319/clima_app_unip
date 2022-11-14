@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class TempoModel {
   final double temperatura;
   final double sensacaoTermica;
@@ -10,7 +8,7 @@ class TempoModel {
   final String cidade;
   final String climaTexto;
   final String climaDescricao;
-  final Image imagem;
+  final String urlImagem;
 
   TempoModel({
     required this.temperatura,
@@ -22,26 +20,29 @@ class TempoModel {
     required this.cidade,
     required this.climaTexto,
     required this.climaDescricao,
-    required this.imagem,
+    required this.urlImagem,
   });
 
   factory TempoModel.fromMap(Map map) {
     return TempoModel(
       temperatura: map["main"]["temp"],
       sensacaoTermica: map["main"]["feels_like"],
-      tempMaxima: map["main"]["temp_min"],
-      tempMinima: map["main"]["temp_max"],
+      tempMaxima: map["main"]["temp_max"],
+      tempMinima: map["main"]["temp_min"],
       humidade: map["main"]["humidity"],
       vento: map["wind"]["speed"],
       cidade: map["name"],
       climaTexto: map["weather"][0]["main"],
-      climaDescricao: map["weather"][0]["description"],
-      imagem: _getImageBasedOnIcon(map["weather"][0]["icon"]),
+      climaDescricao: _capitalize(map["weather"][0]["description"]),
+      urlImagem: _getImageBasedOnIcon(map["weather"][0]["icon"]),
     );
   }
 
-  static Image _getImageBasedOnIcon(String iconName) {
-    String baseUrl = "http://openweathermap.org/img/wn/$iconName@4x.png";
-    return Image.network(baseUrl);
+  static String _capitalize(String s) {
+    return "${s[0].toUpperCase()}${s.substring(1).toLowerCase()}";
+  }
+
+  static String _getImageBasedOnIcon(String iconName) {
+    return "http://openweathermap.org/img/wn/$iconName@4x.png";
   }
 }

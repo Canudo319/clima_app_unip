@@ -1,4 +1,5 @@
 import 'package:clima_app/main_menu/location.dart';
+import 'package:clima_app/widgets/default_card.dart';
 import 'package:clima_app/widgets/information_button.dart';
 import 'package:clima_app/widgets/loading.dart';
 import 'package:clima_app/widgets/service_response.dart';
@@ -25,7 +26,7 @@ class HomeApp extends StatelessWidget {
           future: UserLocation.getLocation(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
+              return DefaultCard(child: Text(snapshot.error.toString()));
             } else if (snapshot.hasData) {
               var lat = snapshot.data?.latitude ?? 0.0;
               var lon = snapshot.data?.longitude ?? 0.0;

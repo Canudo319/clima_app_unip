@@ -1,5 +1,5 @@
+import 'package:clima_app/clima_card/clima_card.dart';
 import 'package:clima_app/model/tempo_model.dart';
-import 'package:clima_app/widgets/default_card.dart';
 import 'package:clima_app/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
@@ -17,8 +17,8 @@ class ClimaRequest extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var body = snapshot.data ?? {};
-          var clima = TempoModel.fromMap(body);
-          return DefaultCard(child: clima.imagem);
+          var tempo = TempoModel.fromMap(body);
+          return ClimaCard(tempo);
         } else {
           return const ProgressIndicatorIndeterminado();
         }

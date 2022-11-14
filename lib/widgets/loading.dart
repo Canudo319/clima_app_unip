@@ -15,9 +15,7 @@ class ProgressIndicatorIndeterminado extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 15),
-          CircularProgressIndicator(
-            semanticsLabel: 'Circular progress indicator',
-          ),
+          CircularProgressIndicator(),
         ],
       ),
     );
