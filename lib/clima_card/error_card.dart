@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class ErrorCard extends StatelessWidget {
   final String texto;
+  final void Function(Widget) setHomeScreen;
 
-  const ErrorCard(this.texto, {super.key});
+  const ErrorCard(this.texto, this.setHomeScreen, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class ErrorCard extends StatelessWidget {
               showDialog(
                   context: context,
                   builder: (_) {
-                    return const SearchCityDialog();
+                    return SearchCityDialog(setHomeScreen);
                   });
             },
             child: const Padding(

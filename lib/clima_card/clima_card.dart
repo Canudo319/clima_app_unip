@@ -1,14 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clima_app/model/tempo_model.dart';
+import 'package:clima_app/widgets/botoes_pesquisa.dart';
 import 'package:clima_app/widgets/default_card.dart';
-import 'package:clima_app/widgets/search_city_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class ClimaCard extends StatelessWidget {
   final TempoModel tempo;
-  final void Function() funcRefresh;
+  final void Function(Widget) setHomeScreen;
 
-  const ClimaCard(this.tempo, this.funcRefresh, {super.key});
+  const ClimaCard(this.tempo, this.setHomeScreen, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,9 @@ class ClimaCard extends StatelessWidget {
             const Divider(thickness: 2),
             const SizedBox(height: 10),
             _MiscInfo(tempo),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             const Divider(thickness: 2),
-            _ButtonRecarga(funcRefresh),
+            Expanded(child: BotoesPesquisa(setHomeScreen)),
           ],
         ),
       ),
@@ -49,24 +51,15 @@ class _CidadeInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(cidade.trim(), style: style),
-        SizedBox(
-          width: 40,
-          child: RawMaterialButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (_) => const SearchCityDialog(),
-              );
-            },
-            shape: const CircleBorder(),
-            child: const Icon(Icons.search),
-          ),
-        ),
-      ],
+    DateTime date = DateTime.now();
+    initializeDateFormatting('pt_BR', null);
+    var data =
+        DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt_Br').format(date.toUtc());
+
+    return Text(
+      "$cidade, $data",
+      style: style,
+      textAlign: TextAlign.center,
     );
   }
 }
@@ -79,14 +72,14 @@ class _ClimaInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 175,
-      child: Column(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(tempo.climaDescricao, style: style),
           CircleAvatar(
-            radius: 55,
+            radius: 45,
             backgroundColor: const Color.fromARGB(255, 168, 226, 255),
             child: CachedNetworkImage(
               imageUrl: tempo.urlImagem,
@@ -223,7 +216,7 @@ class _MiscIcon extends StatelessWidget {
       children: [
         Transform.rotate(
           angle: degress?.toDouble() ?? 0.0,
-          child: Icon(icon, size: 52),
+          child: Icon(icon, size: 48),
         ),
         const SizedBox(width: 10),
         Column(
@@ -234,27 +227,6 @@ class _MiscIcon extends StatelessWidget {
           ],
         )
       ],
-    );
-  }
-}
-
-class _ButtonRecarga extends StatelessWidget {
-  final void Function() funcRefresh;
-
-  const _ButtonRecarga(this.funcRefresh);
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ElevatedButton(
-        onPressed: () {
-          funcRefresh();
-        },
-        child: const Text(
-          "Atualizar",
-          style: TextStyle(fontSize: 18),
-        ),
-      ),
     );
   }
 }

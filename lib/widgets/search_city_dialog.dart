@@ -1,7 +1,10 @@
+import 'package:clima_app/widgets/service_response.dart';
 import 'package:flutter/material.dart';
 
 class SearchCityDialog extends StatelessWidget {
-  const SearchCityDialog({super.key});
+  final void Function(Widget) setHomeScreen;
+
+  const SearchCityDialog(this.setHomeScreen, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class SearchCityDialog extends StatelessWidget {
                     );
                   });
             } else {
+              setHomeScreen(ClimaRequest.porNome(cidade, setHomeScreen));
               Navigator.pop(context);
             }
           },

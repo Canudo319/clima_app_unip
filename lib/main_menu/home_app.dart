@@ -1,9 +1,5 @@
-import 'package:clima_app/clima_card/error_card.dart';
-import 'package:clima_app/main_menu/location.dart';
-import 'package:clima_app/widgets/default_card.dart';
+import 'package:clima_app/clima_card/welcome_card.dart';
 import 'package:clima_app/widgets/information_button.dart';
-import 'package:clima_app/widgets/loading.dart';
-import 'package:clima_app/widgets/service_response.dart';
 import 'package:flutter/material.dart';
 
 class HomeApp extends StatefulWidget {
@@ -14,8 +10,16 @@ class HomeApp extends StatefulWidget {
 }
 
 class _HomeAppState extends State<HomeApp> {
+  late Widget homeScreenWidget = WelcomeCard(setHomeScreenWidget);
+
   void funcRefresh() {
     setState(() {});
+  }
+
+  void setHomeScreenWidget(Widget w) {
+    setState(() {
+      homeScreenWidget = w;
+    });
   }
 
   @override
@@ -33,27 +37,7 @@ class _HomeAppState extends State<HomeApp> {
           backgroundColor: Colors.blue,
           title: const Text("Bem vindo ao Clima App"),
         ),
-        body: FutureBuilder(
-          future: UserLocation.getLocation(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const ProgressIndicatorIndeterminado();
-              default:
-                if (snapshot.hasError) {
-                  return const ErrorCard(
-                    "Ops, parece que o Gps não está disponivel",
-                  );
-                } else if (snapshot.hasData) {
-                  var lat = snapshot.data?.latitude ?? 0.0;
-                  var lon = snapshot.data?.longitude ?? 0.0;
-                  return ClimaRequest(lat, lon);
-                } else {
-                  return const ClimaRequest(0.0, 0.0);
-                }
-            }
-          },
-        ),
+        body: homeScreenWidget,
       ),
     );
   }
