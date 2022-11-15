@@ -1,3 +1,4 @@
+import 'package:clima_app/clima_card/error_card.dart';
 import 'package:clima_app/main_menu/location.dart';
 import 'package:clima_app/widgets/default_card.dart';
 import 'package:clima_app/widgets/information_button.dart';
@@ -23,6 +24,7 @@ class _HomeAppState extends State<HomeApp> {
       title: "Clima",
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color.fromARGB(255, 168, 226, 255),
         appBar: AppBar(
           actions: const [
@@ -39,7 +41,9 @@ class _HomeAppState extends State<HomeApp> {
                 return const ProgressIndicatorIndeterminado();
               default:
                 if (snapshot.hasError) {
-                  return DefaultCard(child: Text(snapshot.error.toString()));
+                  return const ErrorCard(
+                    "Ops, parece que o Gps não está disponivel",
+                  );
                 } else if (snapshot.hasData) {
                   var lat = snapshot.data?.latitude ?? 0.0;
                   var lon = snapshot.data?.longitude ?? 0.0;

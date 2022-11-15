@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clima_app/model/tempo_model.dart';
 import 'package:clima_app/widgets/default_card.dart';
+import 'package:clima_app/widgets/search_city_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ClimaCard extends StatelessWidget {
@@ -19,7 +20,7 @@ class ClimaCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(tempo.cidade, style: style),
+            _CidadeInfo(tempo.cidade, style),
             const SizedBox(height: 10),
             const Divider(thickness: 2),
             _ClimaInfo(tempo, style),
@@ -36,6 +37,36 @@ class ClimaCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _CidadeInfo extends StatelessWidget {
+  final String cidade;
+  final TextStyle style;
+
+  const _CidadeInfo(this.cidade, this.style);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(cidade.trim(), style: style),
+        SizedBox(
+          width: 40,
+          child: RawMaterialButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => const SearchCityDialog(),
+              );
+            },
+            shape: const CircleBorder(),
+            child: const Icon(Icons.search),
+          ),
+        ),
+      ],
     );
   }
 }
