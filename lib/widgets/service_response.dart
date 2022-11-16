@@ -59,8 +59,7 @@ class ClimaRequest extends StatelessWidget {
           default:
             var body = snapshot.data ?? {};
             if (body["cod"] != 200) {
-              return ErrorCard(
-                  "Cidade informada não encontrada", setHomeScreen);
+              return ErrorCard(body["message"], setHomeScreen);
             }
             var tempo = TempoModel.fromMap(body);
             return ClimaCard(tempo, setHomeScreen);
